@@ -4,7 +4,6 @@ import { GraphQLServer, PubSub } from "graphql-yoga";
 import helmet from "helmet";
 import logger from "morgan";
 import schema from "./schema";
-import decodeJWT from "./utils/decodeJWT";
 
 class App {
   public app: GraphQLServer;
@@ -37,15 +36,6 @@ class App {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    const token = req.get("X-JWT");
-    if (token) {
-      const user = await decodeJWT(token);
-      if (user) {
-        req.user = user;
-      } else {
-        req.user = undefined;
-      }
-    }
     next();
   };
 }
