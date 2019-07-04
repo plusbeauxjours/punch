@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.5",
+    "@types/graphql": "^14.2.2",
     "@types/helmet": "^0.0.43",
     "@types/jsonwebtoken": "^8.3.2",
     "@types/mailgun-js": "^0.16.4",
@@ -39,16 +40,18 @@
     "@types/node": "^12.0.10",
     "@types/passport": "^1.0.0",
     "@types/twilio": "^0.0.10",
+    "@types/ws": "^6.0.1",
     "babel-runtime": "^6.26.0",
     "gql-merge": "^0.0.6",
     "graphql-to-typescript": "^0.1.2",
+    "graphqlgen": "^0.6.0-rc9",
     "nodemon": "^1.19.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.2"
   },
   "scripts": {
     "deploy": "prisma deploy",
-    "generate": "prisma generate",
+    "generate": "graphqlgen",
     "prisma": "yarn run deploy && yarn run generate",
     "pretypes": "gql-merge --out-file ./src/api/**/*.graphql",
     "types": "graphql-to-typescript ./src/schema.graphql ./src/types/graph.d.ts",
