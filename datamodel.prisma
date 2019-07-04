@@ -1,7 +1,8 @@
 type User {
   id: ID! @id
   username: String! @unique
-  email: String! @unique
+  email: String @unique
+  phoneNumber: String @unique
   firstName: String @default(value: "")
   lastName: String
   bio: String
@@ -11,6 +12,7 @@ type User {
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
+  loginSecret: String
 }
 
 type Post {

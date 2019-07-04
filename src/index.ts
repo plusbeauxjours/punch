@@ -20,6 +20,7 @@ const appOptions: Options = {
   }
 };
 
-const handleAppStart = () => console.log(`Listening on port ${PORT}`);
+const handleAppStart = () =>
+  console.log(`The GraphQL API Server is now running on port ${PORT}`);
 
 app.start(appOptions, handleAppStart);
