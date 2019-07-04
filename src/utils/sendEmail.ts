@@ -1,22 +1,23 @@
-import Mailgun from "mailgun-js";
+import nodemailer from "nodemailer";
+import sgTransport from "nodemailer-sendgrid-transport";
 
-const mailGunClient = new Mailgun({
-  apiKey: process.env.MAILGUN_API_KEY || "",
-  domain: "sandboxf4ae731f542b44a786ee23bfab8dc714.mailgun.org"
-});
-
-const sendEmail = (subject: string, html: string) => {
-  const emailData = {
-    from: "plusbeauxjours@gmail.com",
-    to: "plusbeauxjours@gmail.com",
-    subject,
-    html
+export const sendMail = email => {
+  const options = {
+    auth: {
+      api_user: process.env.SENDGRID_USERNAME,
+      api_key: process.env.SENDGRID_PASSWORD
+    }
   };
-  return mailGunClient.messages().send(emailData);
+  const client = nodemailer.createTransport(sgTransport(options));
+  return client.sendMail(email);
 };
 
-export const sendVerificationEmail = (fullName: string, key: string) => {
-  const emailSubject = `Hello! ${fullName}, please verify your email`;
-  const emailBody = `Verify your email by clicking <a href="http://punch.com/verification/${key}/">${key}<p>here</p></a>`;
-  return sendEmail(emailSubject, emailBody);
+export const sendSecretMail = (address: string, secret: string) => {
+  const email = {
+    from: "no-reply@punch.com",
+    to: address,
+    subject: "🔒 Login Secret for Punch",
+    html: `Hello! Your login secret is ${secret}.`
+  };
+  return sendMail(email);
 };
