@@ -17,7 +17,7 @@ export const sendSecretMail = (address: string, secret: string) => {
     from: "no-reply@punch.com",
     to: address,
     subject: "🔒 Login Secret for Punch",
-    html: `Hello! Your login secret is ${secret}.`
+    html: `Hello! Your login secret is <strong>${secret}</strong>`
   };
   return sendMail(email);
 };

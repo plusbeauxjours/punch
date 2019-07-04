@@ -1,12 +1,7 @@
-import dotenv from "dotenv";
-import path from "path";
-dotenv.config({ path: path.resolve(__dirname, ".env") });
+import "./env";
 
 import { Options } from "graphql-yoga";
 import app from "./app";
-import { sendSecretMail } from "./utils/sendEmail";
-
-sendSecretMail("plusbeauxjours@gmail.com", "123");
 
 const PORT: number | string = process.env.PORT || 4000;
 const PLAYGROUND_ENDPOINT: string = "/playground";
