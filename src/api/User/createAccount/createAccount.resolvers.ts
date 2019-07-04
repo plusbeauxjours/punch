@@ -1,17 +1,29 @@
 import { prisma } from "../../../../generated/prisma-client/index";
+import { Resolvers } from "src/types/resolvers";
+import {
+  CreateAccountMutationArgs,
+  CreateAccountResponse
+} from "../../../types/graph";
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
-    createAccount: async (_, args) => {
-      const { username, email, firstName = "", lastName = "", bio = "" } = args;
-      const user = await prisma.createUser({
-        username,
-        email,
-        firstName,
-        lastName,
-        bio
-      });
-      return user;
+    createAccount: async (
+      _,
+      args: CreateAccountMutationArgs
+    ): Promise<CreateAccountResponse> => {
+      const { username, email, bio = "" } = args;
+      try {
+        await prisma.createUser({
+          username,
+          email,
+          bio
+        });
+        return { ok: true, error: null };
+      } catch (error) {
+        return { ok: false, error: error.message };
+      }
     }
   }
 };
+
+export default resolvers;

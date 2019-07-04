@@ -10,7 +10,6 @@ type User {
   comments: [Comment!]!
   rooms: [Room!]!
   loginSecret: String
-  ko: String
 }
 
 type Post {
@@ -54,4 +53,31 @@ type Message {
   from: User!
   to: User!
   room: Room!
+}
+
+type ToggleLikeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  toggleLike(postId: String!): ToggleLikeResponse!
+  confirmSecret(secret: String!, email: String!): ConfirmSecretResponse!
+  createAccount(username: String!, email: String!, bio: String): CreateAccountResponse!
+  requestSecret(email: String, phoneNumber: String): Boolean!
+}
+
+type ConfirmSecretResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+
+type CreateAccountResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Query {
+  something: String!
 }

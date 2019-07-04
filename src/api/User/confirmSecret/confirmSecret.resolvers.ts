@@ -1,16 +1,36 @@
 import { prisma } from "../../../../generated/prisma-client/index";
 import { generateToken } from "../../../utils/generateToken";
+import { Resolvers } from "../../../types/resolvers";
+import {
+  ConfirmSecretMutationArgs,
+  ConfirmSecretResponse
+} from "../../../types/graph";
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
-    confirmSecret: async (_, args) => {
+    confirmSecret: async (
+      _,
+      args: ConfirmSecretMutationArgs
+    ): Promise<ConfirmSecretResponse> => {
       const { email, secret } = args;
       const user = await prisma.user({ email });
+
       if (user.loginSecret === secret) {
-        return generateToken(user.id);
+        const token = generateToken(user.id);
+        return {
+          ok: true,
+          error: null,
+          token
+        };
       } else {
-        throw Error("🚫 Wrong email/secret convination");
+        return {
+          ok: true,
+          error: "🚫 Wrong email/secret convination",
+          token: null
+        };
       }
     }
   }
 };
+
+export default resolvers;
